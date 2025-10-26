@@ -1,1 +1,354 @@
-Latihan Soal OSN IPA SD Materi Keanekaragaman hayati dan pengklasifikasian makhluk hidup
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan OSN IPA - Keanekaragaman Hayati</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat Font Awesome (untuk ikon) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Menggunakan font Inter */
+        body {
+            font-family: "Inter", sans-serif;
+        }
+        /* Style untuk tombol pembahasan */
+        .toggle-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        /* Style untuk pembahasan */
+        .rationale {
+            display: none; /* Sembunyi secara default */
+            margin-top: 8px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+        /* Style untuk pembahasan yang benar */
+        .rationale.correct {
+            background-color: #d1fae5; /* Tailwind green-100 */
+            border: 1px solid #6ee7b7; /* Tailwind green-300 */
+            color: #065f46; /* Tailwind green-800 */
+        }
+        /* Style untuk pembahasan yang salah */
+        .rationale.incorrect {
+            background-color: #fee2e2; /* Tailwind red-100 */
+            border: 1px solid #fca5a5; /* Tailwind red-300 */
+            color: #991b1b; /* Tailwind red-800 */
+        }
+        /* Style untuk opsi jawaban */
+        .option-label {
+            display: block;
+            padding: 12px;
+            border: 1px solid #e5e7eb; /* Tailwind gray-200 */
+            border-radius: 8px;
+            cursor: default; /* Bukan radio button, jadi default saja */
+        }
+        /* Style untuk opsi yang benar saat pembahasan ditampilkan */
+        .option-label.show-correct {
+             background-color: #d1fae5;
+             border-color: #6ee7b7;
+        }
+        /* Style untuk opsi yang salah saat pembahasan ditampilkan */
+        .option-label.show-incorrect {
+             background-color: #fee2e2;
+             border-color: #fca5a5;
+        }
+        /* Style untuk header tingkat kesulitan */
+        .difficulty-header {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 700; /* font-bold */
+            margin-top: 2.5rem; /* mt-10 */
+            margin-bottom: 1rem; /* mb-4 */
+            padding-bottom: 0.5rem; /* pb-2 */
+            border-bottom: 2px solid;
+        }
+        .difficulty-header i {
+            margin-right: 0.75rem; /* mr-3 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-8">
+
+    <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">
+            Latihan Soal OSN IPA
+        </h1>
+        <p class="text-center text-gray-600 text-lg mb-10">
+            Keanekaragaman Hayati & Klasifikasi Makhluk Hidup
+        </p>
+
+        <!-- Kontainer untuk semua soal -->
+        <div id="quiz-container" class="space-y-8">
+            <!-- Soal-soal akan dimasukkan di sini oleh JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Data soal dan pembahasan
+        // Menggunakan format yang sama dari interaksi sebelumnya agar konsisten
+        // Rk = Kumpulan Soal, HE = Pilihan Jawaban, Tr = Benar/Salah, P8 = Pembahasan
+        const quizData = {
+            "Rk": [
+                // === LEVEL MUDAH (PEMAHAMAN KONSEP) ===
+                {
+                    "level": "mudah",
+                    "question": "Adanya berbagai jenis mangga seperti mangga harum manis, mangga gedong, dan mangga manalagi menunjukkan adanya keanekaragaman hayati tingkat...",
+                    "HE": [
+                        { "text": "Ekosistem", "Tr": false, "P8": "Salah. Keanekaragaman ekosistem adalah perbedaan antar lingkungan, misalnya ekosistem gurun dan ekosistem hutan hujan." },
+                        { "text": "Gen (Jenis)", "Tr": true, "P8": "Benar. Ini adalah keanekaragaman genetik (gen) karena variasinya terjadi di dalam satu spesies yang sama, yaitu mangga (Mangifera indica)." },
+                        { "text": "Spesies (Antar Jenis)", "Tr": false, "P8": "Salah. Keanekaragaman spesies adalah perbedaan antar jenis, misalnya antara mangga, durian, dan rambutan." },
+                        { "text": "Komunitas", "Tr": false, "P8": "Salah. Komunitas adalah kumpulan berbagai spesies yang hidup bersama di satu tempat." }
+                    ]
+                },
+                {
+                    "level": "mudah",
+                    "question": "Di sebuah kebun, kita dapat menemukan pohon mangga, semut rangrang, rumput teki, dan kupu-kupu. Kumpulan berbagai makhluk hidup ini menunjukkan keanekaragaman hayati tingkat...",
+                    "HE": [
+                        { "text": "Gen", "Tr": false, "P8": "Salah. Keanekaragaman gen adalah variasi dalam satu jenis, seperti berbagai jenis mangga." },
+                        { "text": "Individu", "Tr": false, "P8": "Salah. Individu adalah satu makhluk hidup tunggal, misalnya satu pohon mangga." },
+                        { "text": "Spesies", "Tr": true, "P8": "Benar. Keanekaragaman spesies (antar jenis) ditunjukkan oleh adanya berbagai jenis makhluk hidup yang berbeda (mangga, semut, rumput, kupu-kupu) di satu tempat." },
+                        { "text": "Ekosistem", "Tr": false, "P8": "Salah. Ini adalah komponen biotik (makhluk hidup) di dalam satu ekosistem kebun, bukan perbandingan antar ekosistem." }
+                    ]
+                },
+                {
+                    "level": "mudah",
+                    "question": "Tujuan utama dari kegiatan klasifikasi (pengelompokan) makhluk hidup adalah...",
+                    "HE": [
+                        { "text": "Memberi nama yang sulit agar terlihat ilmiah.", "Tr": false, "P8": "Salah. Nama ilmiah tujuannya untuk keseragaman global, bukan untuk membuatnya sulit." },
+                        { "text": "Mempermudah dalam mengenali dan mempelajari makhluk hidup.", "Tr": true, "P8": "Benar. Dengan mengelompokkan berdasarkan persamaan ciri, kita lebih mudah mempelajari dan mengenali jutaan jenis makhluk hidup." },
+                        { "text": "Menghitung jumlah total makhluk hidup di bumi.", "Tr": false, "P8": "Salah. Klasifikasi membantu mengorganisasi data, tapi tujuan utamanya bukan menghitung jumlah total (sensus)." },
+                        { "text": "Memisahkan hewan yang bermanfaat dan yang merugikan.", "Tr": false, "P8": "Salah. Klasifikasi bersifat objektif berdasarkan ciri, bukan berdasarkan manfaat atau kerugian bagi manusia." }
+                    ]
+                },
+                {
+                    "level": "mudah",
+                    "question": "Dalam sistem klasifikasi lima kingdom, bakteri dan ganggang hijau-biru (Cyanobacteria) dikelompokkan ke dalam kingdom...",
+                    "HE": [
+                        { "text": "Protista", "Tr": false, "P8": "Salah. Protista memiliki inti sel (eukariotik), sementara bakteri tidak." },
+                        { "text": "Fungi (Jamur)", "Tr": false, "P8": "Salah. Fungi adalah eukariotik dan bersifat heterotrof (tidak bisa buat makanan sendiri)." },
+                        { "text": "Monera", "Tr": true, "P8": "Benar. Kingdom Monera adalah satu-satunya kingdom yang anggotanya tidak memiliki membran inti sel (prokariotik), contohnya adalah bakteri." },
+                        { "text": "Plantae (Tumbuhan)", "Tr": false, "P8": "Salah. Tumbuhan adalah eukariotik multiseluler dan memiliki klorofil, sangat berbeda dengan bakteri." }
+                    ]
+                },
+                {
+                    "level": "mudah",
+                    "question": "Jamur tiram dan jamur kuping sering dimasak sebagai sayur. Meskipun mirip tumbuhan, jamur dipisahkan ke dalam kingdom Fungi karena...",
+                    "HE": [
+                        { "text": "Memiliki akar, batang, dan daun sejati.", "Tr": false, "P8": "Salah. Justru jamur tidak memiliki akar, batang, dan daun sejati seperti tumbuhan." },
+                        { "text": "Tidak memiliki klorofil dan bersifat heterotrof.", "Tr": true, "P8": "Benar. Jamur tidak bisa berfotosintesis (tidak punya klorofil) dan mendapatkan makanan dengan menyerap zat dari lingkungannya (heterotrof)." },
+                        { "text": "Dapat berpindah tempat seperti hewan.", "Tr": false, "P8": "Salah. Jamur hidup menempel pada substratnya (tempat hidupnya) dan tidak berpindah tempat secara aktif." },
+                        { "text": "Berkembang biak dengan cara membelah diri.", "Tr": false, "P8": "Salah. Jamur berkembang biak utamanya dengan spora, bukan membelah diri seperti bakteri atau Amoeba." }
+                    ]
+                },
+                // === LEVEL SEDANG (PENERAPAN & IDENTIFIKASI) ===
+                {
+                    "level": "sedang",
+                    "question": "Amoeba, Paramecium, dan Euglena adalah contoh makhluk hidup mikroskopis yang dikelompokkan ke dalam kingdom Protista karena...",
+                    "HE": [
+                        { "text": "Semuanya menyebabkan penyakit pada manusia.", "Tr": false, "P8": "Salah. Banyak Protista yang tidak menyebabkan penyakit, misalnya Euglena yang bisa berfotosintesis." },
+                        { "text": "Tidak memiliki inti sel (prokariotik).", "Tr": false, "P8": "Salah. Protista sudah memiliki inti sel (eukariotik). Yang prokariotik adalah Monera (bakteri)." },
+                        { "text": "Memiliki inti sel, tapi tidak termasuk hewan, tumbuhan, atau jamur.", "Tr": true, "P8": "Benar. Protista adalah kingdom 'sisa' untuk makhluk hidup eukariotik (punya inti sel) yang bukan hewan, tumbuhan, atau jamur sejati." },
+                        { "text": "Semuanya adalah tumbuhan bersel satu.", "Tr": false, "P8": "Salah. Amoeba dan Paramecium bersifat mirip hewan (heterotrof), sedangkan Euglena mirip tumbuhan (fotosintesis)." }
+                    ]
+                },
+                {
+                    "level": "sedang",
+                    "question": "Tanaman jagung, padi, dan kelapa memiliki ciri-ciri yang sama, yaitu berakar serabut dan tulang daun sejajar. Ciri-ciri ini menunjukkan bahwa mereka termasuk dalam kelompok...",
+                    "HE": [
+                        { "text": "Tumbuhan berbiji terbuka (Gymnospermae)", "Tr": false, "P8": "Salah. Tumbuhan berbiji terbuka contohnya pinus dan melinjo. Jagung, padi, dan kelapa bijinya tertutup." },
+                        { "text": "Tumbuhan paku (Pteridophyta)", "Tr": false, "P8": "Salah. Tumbuhan paku berkembang biak dengan spora, bukan biji." },
+                        { "text": "Dikotil (Biji berkeping dua)", "Tr": false, "P8": "Salah. Ciri-ciri dikotil adalah akar tunggang dan tulang daun menyirip atau menjari." },
+                        { "text": "Monokotil (Biji berkeping satu)", "Tr": true, "P8": "Benar. Ciri-ciri utama tumbuhan Monokotil adalah biji berkeping satu, akar serabut, dan tulang daun sejajar/melengkung." }
+                    ]
+                },
+                {
+                    "level": "sedang",
+                    "question": "Hewan berikut yang termasuk dalam kelompok hewan tidak bertulang belakang (Avertebrata/Invertebrata) adalah...",
+                    "HE": [
+                        { "text": "Katak, ikan, dan ular", "Tr": false, "P8": "Salah. Katak (Amfibi), ikan (Pisces), dan ular (Reptil) semuanya memiliki tulang belakang (Vertebrata)." },
+                        { "text": "Cacing, siput, dan capung", "Tr": true, "P8": "Benar. Cacing (Vermes), siput (Mollusca), dan capung (Arthropoda/Serangga) tidak memiliki tulang belakang." },
+                        { "text": "Burung, kelelawar, dan kadal", "Tr": false, "P8": "Salah. Burung (Aves), kelelawar (Mamalia), dan kadal (Reptil) semuanya adalah hewan Vertebrata." },
+                        { "text": "Paus, lumba-lumba, dan buaya", "Tr": false, "P8": "Salah. Paus dan lumba-lumba (Mamalia) serta buaya (Reptil) semuanya memiliki tulang belakang." }
+                    ]
+                },
+                {
+                    "level": "sedang",
+                    "question": "Komodo, anoa, dan burung maleo adalah contoh hewan-hewan unik yang hanya ditemukan di Indonesia. Keberadaan hewan-hewan ini merupakan bagian dari...",
+                    "HE": [
+                        { "text": "Biodiversitas Indonesia", "Tr": true, "P8": "Benar. Hewan-hewan ini adalah bagian dari kekayaan keanekaragaman hayati (biodiversitas) yang dimiliki Indonesia, khususnya di zona Peralihan." },
+                        { "text": "Hewan hasil persilangan", "Tr": false, "P8": "Salah. Mereka adalah spesies alami yang terbentuk melalui proses evolusi di habitat aslinya." },
+                        { "text": "Hewan yang tidak perlu dilestarikan", "Tr": false, "P8": "Salah. Justru karena mereka unik dan langka (endemik), mereka sangat perlu dilestarikan agar tidak punah." },
+                        { "text": "Fauna tipe Asiatis murni", "Tr": false, "P8": "Salah. Komodo, anoa, dan maleo adalah contoh fauna tipe Peralihan (zona Wallacea), bukan Asiatis (zona barat)." }
+                    ]
+                },
+                {
+                    "level": "sedang",
+                    "question": "Perhatikan kelompok hewan berikut:\n(1) Ikan Mas\n(2) Buaya\n(3) Burung Elang\n(4) Katak\n\nHewan yang suhu tubuhnya bergantung pada suhu lingkungan (berdarah dingin / poikiloterm) ditunjukkan oleh nomor...",
+                    "HE": [
+                        { "text": "(1), (2), dan (3)", "Tr": false, "P8": "Salah. Burung Elang (3) adalah hewan berdarah panas (homoioterm) yang suhu tubuhnya stabil." },
+                        { "text": "(3) dan (4)", "Tr": false, "P8": "Salah. Burung Elang (3) berdarah panas." },
+                        { "text": "(1), (2), dan (4)", "Tr": true, "P8": "Benar. Ikan (Pisces), Buaya (Reptil), dan Katak (Amfibi) adalah kelompok hewan berdarah dingin (poikiloterm)." },
+                        { "text": "Hanya (3)", "Tr": false, "P8": "Salah. Burung Elang (3) adalah satu-satunya yang berdarah panas di daftar ini." }
+                    ]
+                },
+                {
+                    "level": "sedang",
+                    "question": "Lumut kerak (Lichenes) adalah organisme unik yang terbentuk dari simbiosis antara jamur dan ganggang. Dalam klasifikasi lima kingdom, organisme ini sulit dikelompokkan karena...",
+                    "HE": [
+                        { "text": "Termasuk Monera karena tidak punya inti sel.", "Tr": false, "P8": "Salah. Jamur dan ganggang (kecuali ganggang biru) keduanya memiliki inti sel (eukariotik)." },
+                        { "text": "Merupakan gabungan dua kingdom yang berbeda (Fungi dan Protista/Plantae).", "Tr": true, "P8": "Benar. Lumut kerak adalah hasil simbiosis mutualisme antara Kingdom Fungi (jamur) dan Kingdom Protista (ganggang) atau Monera (ganggang biru)." },
+                        { "text": "Tidak bisa berkembang biak.", "Tr": false, "P8": "Salah. Lumut kerak dapat berkembang biak, baik secara vegetatif (fragmentasi) maupun generatif." },
+                        { "text": "Bisa berpindah tempat seperti hewan.", "Tr": false, "P8": "Salah. Lumut kerak hidup menempel pada batu atau batang pohon." }
+                    ]
+                },
+                // === LEVEL SULIT (ANALISIS & STUDI KASUS) ===
+                {
+                    "level": "sulit",
+                    "question": "Perhatikan urutan taksonomi (tingkatan klasifikasi) berikut:\nKingdom - Filum/Divisi - ...?... - Ordo - Famili - Genus - Spesies\n\nTingkatan takson yang tepat untuk mengisi titik-titik di atas adalah...",
+                    "HE": [
+                        { "text": "Kelas", "Tr": true, "P8": "Benar. Urutan taksonomi dari yang tertinggi ke terendah adalah Kingdom (Kerajaan), Filum (hewan) / Divisi (tumbuhan), Kelas, Ordo (Bangsa), Famili (Suku), Genus (Marga), Spesies (Jenis)." },
+                        { "text": "Varietas", "Tr": false, "P8": "Salah. Varietas (ras) adalah tingkatan di bawah Spesies, menunjukkan adanya variasi dalam satu spesies." },
+                        { "text": "Populasi", "Tr": false, "P8": "Salah. Populasi adalah istilah ekologi (kumpulan individu sejenis), bukan tingkatan taksonomi." },
+                        { "text": "Spesimen", "Tr": false, "P8": "Salah. Spesimen adalah sebutan untuk satu contoh individu yang diawetkan atau diteliti." }
+                    ]
+                },
+                {
+                    "level": "sulit",
+                    "question": "Padi memiliki nama ilmiah *Oryza sativa*, sedangkan jagung memiliki nama ilmiah *Zea mays*. Berdasarkan aturan tata nama ilmiah (binomial nomenklatur), pernyataan yang paling tepat adalah...",
+                    "HE": [
+                        { "text": "Padi dan jagung berada dalam genus yang sama.", "Tr": false, "P8": "Salah. Kata pertama (*Oryza* dan *Zea*) menunjukkan genus. Karena berbeda, mereka berada dalam genus yang berbeda." },
+                        { "text": "*sativa* dan *mays* adalah nama genus mereka.", "Tr": false, "P8": "Salah. Kata kedua (*sativa* dan *mays*) adalah penunjuk spesies (jenis), bukan genus." },
+                        { "text": "Padi dan jagung memiliki kekerabatan yang sangat jauh.", "Tr": false, "P8": "Salah. Meskipun beda genus, mereka sama-sama Monokotil dan termasuk dalam famili yang sama, yaitu Poaceae (rumput-rumputan), jadi kekerabatannya cukup dekat." },
+                        { "text": "*Oryza* adalah nama genus (marga) untuk padi.", "Tr": true, "P8": "Benar. Dalam sistem tata nama ganda, kata pertama (diawali huruf besar dan dicetak miring) menunjukkan Genus (marga)." }
+                    ]
+                },
+                {
+                    "level": "sulit",
+                    "question": "Garis Wallace dan Garis Weber membagi Indonesia menjadi tiga wilayah fauna. Hewan seperti harimau dan gajah (tipe Asiatis) memiliki ciri yang mirip dengan fauna di Asia, sedangkan kanguru pohon dan kuskus (tipe Australis) mirip dengan fauna di Australia. Mengapa hal ini bisa terjadi?",
+                    "HE": [
+                        { "text": "Karena hewan Asiatis tidak suka menyeberang laut dalam.", "Tr": false, "P8": "Salah. Ini penyederhanaan. Alasan utamanya bersifat historis dan geologis, bukan 'kesukaan' hewan." },
+                        { "text": "Karena iklim di wilayah barat dan timur Indonesia sangat berbeda.", "Tr": false, "P8": "Salah. Meskipun ada perbedaan iklim, faktor utamanya adalah sejarah geologi (pergerakan lempeng benua)." },
+                        { "text": "Karena wilayah barat (Asiatis) dulu bersatu dengan benua Asia, dan wilayah timur (Australis) bersatu dengan benua Australia.", "Tr": true, "P8": "Benar. Pada zaman es, dangkalan Sunda (barat) menyatu dengan Asia, dan dangkalan Sahul (timur) menyatu dengan Australia, memungkinkan persebaran fauna tersebut." },
+                        { "text": "Karena manusia sengaja memindahkan hewan-hewan tersebut.", "Tr": false, "P8": "Salah. Persebaran ini terjadi secara alami selama jutaan tahun, jauh sebelum manusia melakukan pemindahan hewan." }
+                    ]
+                },
+                {
+                    "level": "sulit",
+                    "question": "Seorang siswa menemukan organisme dengan ciri-ciri: multiseluler (bersel banyak), memiliki dinding sel dari kitin, tidak berklorofil, dan hidup sebagai pengurai (saprofit). Berdasarkan ciri-ciri tersebut, siswa tersebut seharusnya mengelompokkan organisme itu ke dalam Kingdom...",
+                    "HE": [
+                        { "text": "Plantae (Tumbuhan)", "Tr": false, "P8": "Salah. Plantae memiliki klorofil (autotrof) dan dinding selnya dari selulosa, bukan kitin." },
+                        { "text": "Animalia (Hewan)", "Tr": false, "P8": "Salah. Animalia tidak memiliki dinding sel dan bersifat heterotrof (memakan), bukan mengurai (saprofit)." },
+                        { "text": "Fungi (Jamur)", "Tr": true, "P8": "Benar. Ciri khas Fungi adalah: eukariotik, dinding sel dari kitin, tidak berklorofil, dan hidup sebagai heterotrof (saprofit/parasit)." },
+                        { "text": "Protista", "Tr": false, "P8": "Salah. Meskipun ada Protista mirip jamur, ciri 'dinding sel dari kitin' dan 'multiseluler' yang dominan merujuk kuat ke Kingdom Fungi." }
+                    ]
+                }
+            ]
+        };
+
+
+        // --- JavaScript untuk membangun Tampilan Kuis ---
+
+        const quizContainer = document.getElementById('quiz-container');
+        const optionLetters = ['A', 'B', 'C', 'D'];
+        let currentLevel = "";
+
+        // Fungsi untuk membuat setiap soal
+        quizData.Rk.forEach((questionData, index) => {
+            
+            // Menambahkan Header Tingkat Kesulitan
+            if (questionData.level !== currentLevel) {
+                currentLevel = questionData.level;
+                const header = document.createElement('div');
+                header.className = 'difficulty-header';
+                
+                if (currentLevel === 'mudah') {
+                    header.classList.add('text-green-600', 'border-green-600');
+                    header.innerHTML = '<i class="fas fa-seedling"></i> Tingkat Mudah';
+                } else if (currentLevel === 'sedang') {
+                    header.classList.add('text-blue-600', 'border-blue-600');
+                    header.innerHTML = '<i class="fas fa-tree"></i> Tingkat Sedang';
+                } else if (currentLevel === 'sulit') {
+                    header.classList.add('text-red-600', 'border-red-600');
+                    header.innerHTML = '<i class="fas fa-mountain"></i> Tingkat Sulit';
+                }
+                quizContainer.appendChild(header);
+            }
+
+            // Membuat div untuk satu soal
+            const questionElement = document.createElement('div');
+            questionElement.className = 'border-b border-gray-200 pb-8';
+            questionElement.setAttribute('data-question-index', index); // Menandai soal
+
+            // Menambahkan nomor soal dan teks pertanyaan
+            // Menggunakan innerHTML agar format seperti tabel dan baris baru bisa tampil
+            questionElement.innerHTML = `
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Soal ${index + 1}</h2>
+                <p class="text-gray-800 text-base leading-relaxed mb-6" style="white-space: pre-wrap;">${questionData.question}</p>
+                <div class="space-y-3 options-container">
+                    ${questionData.HE.map((option, i) => `
+                        <div>
+                            <label class="option-label">
+                                <span class="font-bold mr-2">${optionLetters[i]}.</span>
+                                <span>${option.text}</span>
+                            </label>
+                            <div class="rationale ${option.Tr ? 'correct' : 'incorrect'}">
+                                <span class="font-bold">Pembahasan:</span> ${option.P8}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="toggle-btn mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+                    Tampilkan Pembahasan
+                </button>
+            `;
+
+            quizContainer.appendChild(questionElement);
+        });
+
+        // Menambahkan event listener untuk semua tombol "Tampilkan Pembahasan"
+        quizContainer.addEventListener('click', function(e) {
+            if (e.target.classList.contains('toggle-btn')) {
+                const button = e.target;
+                const questionElement = button.closest('.border-b');
+                const rationales = questionElement.querySelectorAll('.rationale');
+                const optionLabels = questionElement.querySelectorAll('.option-label');
+                const questionIndex = parseInt(questionElement.getAttribute('data-question-index'), 10);
+                const questionData = quizData.Rk[questionIndex];
+
+                // Toggle pembahasan
+                const isShowing = button.textContent.includes('Sembunyikan');
+                
+                if (isShowing) {
+                    // Sembunyikan pembahasan
+                    rationales.forEach(r => r.style.display = 'none');
+                    optionLabels.forEach(label => {
+                        label.classList.remove('show-correct', 'show-incorrect');
+                    });
+                    button.textContent = 'Tampilkan Pembahasan';
+                    button.classList.remove('bg-gray-500', 'hover:bg-gray-600');
+                    button.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                } else {
+                    // Tampilkan pembahasan
+                    rationales.forEach(r => r.style.display = 'block');
+                    optionLabels.forEach((label, index) => {
+                        const isCorrect = questionData.HE[index].Tr;
+                        if (isCorrect) {
+                            label.classList.add('show-correct');
+                        } else {
+                            label.classList.add('show-incorrect');
+                        }
+                    });
+                    button.textContent = 'Sembunyikan Pembahasan';
+                    button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                    button.classList.add('bg-gray-500', 'hover:bg-gray-600');
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
